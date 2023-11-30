@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".core.Application"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RideHailing"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="33">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".screens.tokencheck.TokenCheckActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.App.Starting">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".screens.permission.PermissionActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.login.LoginScreen"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+
+        <activity
+            android:name=".screens.otpverification.OtpVerificationActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+
+        <activity
+            android:name=".screens.newusercreation.NewUserCreationActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.passwordverification.PasswordVerificationActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.changepassword.ChangePasswordActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.home.HomeActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.notificationdetails.NotificationDetailActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.confirmlocation.ConfirmLocationActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.selectinglocation.SelectingLocationActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.booking.BookingActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".screens.notefordriver.NoteForDriverActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".screens.findingdriver.FindingDriverActivity"
+            android:exported="false"/>
+        <service
+            android:name=".services.LocationService"
+            android:foregroundServiceType="location" />
+    </application>
+
+</manifest>

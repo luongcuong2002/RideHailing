@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Cam SM Driver</string>
+
+    <string name="ok_text">OK</string>
+    <string name="cancel_text">HỦY</string>
+    <string name="dismiss_text">Bỏ qua</string>
+    <string name="driver_emulator_text">Giả lập tài xế</string>
+    <string name="phone_number_placeholder">Nhập số điện thoại</string>
+    <string name="password_placeholder">Nhập mật khẩu</string>
+    <string name="login_text">Đăng nhập</string>
+    <string name="info_text">Thông tin</string>
+    <string name="location_text">Vị trí</string>
+    <string name="trip_text">Chuyến đi</string>
+    <string name="save_text">Lưu</string>
+    <string name="edit_text">Sửa</string>
+    <string name="full_name_text">Họ và tên</string>
+    <string name="phone_number_text">Số điện thoại</string>
+    <string name="license_plate_text">Biển số xe</string>
+    <string name="vehicle_brand_text">Hãng xe</string>
+    <string name="vehicle_type_text">Loại xe</string>
+    <string name="address_text">Địa chỉ</string>
+    <string name="coordinate_text">Tọa độ</string>
+    <string name="change_text">Thay đổi</string>
+    <string name="pick_up_location_text">Điểm đón</string>
+    <string name="drop_off_location_text">Điểm trả</string>
+    <string name="accept_a_ride">Đồng ý nhận cuốc</string>
+    <string name="pickup_customer_location">Địa điểm đón khách</string>
+    <string name="dropoff_customer_location">Địa điểm trả khách</string>
+    <string name="directions">Chỉ đường</string>
+    <string name="texting">Nhắn tin</string>
+    <string name="call">Gọi điện</string>
+    <string name="cancel_trip">Hủy chuyến</string>
+    <string name="expected_fare">Giá cước dự kiến</string>
+    <string name="customer_info">Thông tin khách hàng</string>
+    <string name="swipe_to_confirm_pickup">Vuốt xác nhận đón khách</string>
+    <string name="swipe_to_confirm_dropoff">Vuốt xác nhận trả khách</string>
+    <string name="note_text">Ghi chú</string>
+    <string name="money_customer_paid">"Số tiền khách phải trả"</string>
+    <string name="payment_method">Phương thức thanh toán</string>
+    <string name="trip_cost">Phí chuyến đi</string>
+    <string name="total_distance">Tổng quãng đường</string>
+    <string name="confirm_paid">Xác nhận đã thanh toán</string>
+</resources>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script>
+      const socket = io("http://127.0.0.1:5001/connect");
+      //   console.log(socket);
+      //   socket.on("connected", (data) => {
+      //     console.log(data);
+      //   });
+
+      socket.on("receive-data", (data) => {
+        console.log(data);
+      });
+
+      function sendData() {
+        const dataIdSocket = {
+            idDriver : '65632f17d6fb2d90a78e1397',
+            socketId: socket.id,
+            currentLatitude: 20.978819,
+            currentLongitude: 105.768349
+        };
+        // socket.emit("driver-login", dataSend);
+        socket.emit("receive-application", dataIdSocket);
+
+        // const dataSend = {
+        //   drivers: ["65632f12d6fb2d90a78e1394", "65632f17d6fb2d90a78e1397"],
+        //   fareAmount: 12000,
+        //   startLatitude: 1,
+        //   startLongitude: 1,
+        //   endLatitude: 1,
+        //   endLongitude: 1,
+        // };
+        // // socket.emit("driver-login", dataSend);
+        // socket.emit("findDriver", dataSend);
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="sendData()">Send</button>
+  </body>
+</html>
