@@ -28,6 +28,9 @@ import ir.kaaveh.sdpcompose.ssp
 fun NoteForDriver(
     dropoffConfirmationUiViewModel: DropoffConfirmationUiViewModel = viewModel()
 ) {
+    if (dropoffConfirmationUiViewModel.currentTripInfo.noteForDriver.isEmpty()) {
+        return
+    }
     Column(
         modifier = Modifier
             .padding(top = 20.sdp)

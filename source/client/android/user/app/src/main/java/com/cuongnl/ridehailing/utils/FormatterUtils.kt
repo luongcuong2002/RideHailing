@@ -1,6 +1,9 @@
 package com.cuongnl.ridehailing.utils
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object FormatterUtils {
     fun formatPhoneNumberToInternationalFormation(
@@ -40,5 +43,11 @@ object FormatterUtils {
         } else {
             fullAddress
         }
+    }
+
+    fun convertTimestampToString(timestamp: Long): String {
+        val date = Date(timestamp)
+        val format = SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault())
+        return format.format(date)
     }
 }

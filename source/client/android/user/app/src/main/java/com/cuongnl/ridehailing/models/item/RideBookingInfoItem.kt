@@ -11,5 +11,6 @@ data class RideBookingInfoItem(
     var directionPoints: List<com.google.android.gms.maps.model.LatLng>? = null,
     var travelTimeInMinutes: Int? = null,
     var distanceInKilometers: Double? = null,
-    var isSelected: MutableState<Boolean> = mutableStateOf(false)
+    var isSelected: MutableState<Boolean> = mutableStateOf(false),
+    var isBookingInfoLoading: MutableState<Boolean> = mutableStateOf(true),
 )

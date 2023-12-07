@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
 import com.cuongnl.ridehailing.core.BaseActivity
 import com.cuongnl.ridehailing.models.api.RequestARideRequest
+import com.cuongnl.ridehailing.network.socketio.BookingSocket
 import com.cuongnl.ridehailing.screens.findingdriver.ui.AppBar
 import com.cuongnl.ridehailing.screens.findingdriver.ui.BottomView
 import com.cuongnl.ridehailing.screens.findingdriver.ui.MapView
@@ -26,6 +27,7 @@ class FindingDriverActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setupViewModel()
+        connectBookingSocket()
 
         setContent {
             Screen()
@@ -35,18 +37,19 @@ class FindingDriverActivity : BaseActivity() {
     private fun setupViewModel() {
         findingDriverViewModel = ViewModelProvider(this)[FindingDriverViewModel::class.java]
 
-        findingDriverViewModel.connect()
         findingDriverViewModel.setupListeners(this)
 
         val requestData = intent.getSerializableExtra(Constant.BUNDLE_REQUEST_A_RIDE_REQUEST) as RequestARideRequest
 
         val pickupLatLng = LatLng(requestData.pickupLatitude, requestData.pickupLongitude)
+        val destinationLatLng = LatLng(requestData.destinationLatitude, requestData.destinationLongitude)
 
         findingDriverViewModel.setPickupLatLng(pickupLatLng)
         findingDriverViewModel.setTransportationType(requestData.transportationType)
         findingDriverViewModel.setPaymentMethod(requestData.paymentMethod)
         findingDriverViewModel.setCost(requestData.cost)
-        findingDriverViewModel.emitRequestARide(requestData.toJson())
+        findingDriverViewModel.setDestinationLatLng(destinationLatLng)
+        findingDriverViewModel.setMinutesToDriverArrival(requestData.minutesToDriverArrival)
 
         mapViewModel = ViewModelProvider(this)[MapViewModel::class.java]
         mapViewModel.setCameraPositionState(
@@ -56,9 +59,19 @@ class FindingDriverActivity : BaseActivity() {
         )
     }
 
+    private fun connectBookingSocket() {
+
+        val requestData = intent.getSerializableExtra(Constant.BUNDLE_REQUEST_A_RIDE_REQUEST) as RequestARideRequest
+
+        BookingSocket.connect(this)
+        BookingSocket.emitUserConnectSocket()
+        BookingSocket.emitFindADriver(requestData.toJson())
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        findingDriverViewModel.disconnect()
+        findingDriverViewModel.offListeners()
+        BookingSocket.disconnect()
     }
 }
 

@@ -31,9 +31,6 @@ import ir.kaaveh.sdpcompose.ssp
 fun BoxScope.SwipeButton(
     pickupConfirmationUiViewModel: PickupConfirmationUiViewModel = viewModel()
 ) {
-
-    val context = LocalContext.current
-
     SwipeableView(
         modifier = Modifier
             .align(Alignment.BottomCenter)
@@ -83,7 +80,7 @@ fun BoxScope.SwipeButton(
         },
         progressTint = colorResource(id = R.color.blue_400).copy(0.5f),
         onSwiped = {
-            pickupConfirmationUiViewModel.onSwipeToConfirm(context)
+            pickupConfirmationUiViewModel.onSwipeToConfirm()
         }
     )
 }

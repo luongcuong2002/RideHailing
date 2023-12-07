@@ -41,23 +41,23 @@ fun InfoTable() {
         ) {
             RowInfo(
                 stringResource(id = R.string.full_name_text),
-                CurrentDriver.getDriver().driverName
+                CurrentDriver.getDriver().driverName.value
             )
             RowInfo(
                 stringResource(id = R.string.phone_number_text),
-                CurrentDriver.getDriver().phoneNumber
+                CurrentDriver.getDriver().phoneNumber.value
             )
             RowInfo(
                 stringResource(id = R.string.license_plate_text),
-                CurrentDriver.getDriver().licensePlate
+                CurrentDriver.getDriver().licensePlate.value
             )
             RowInfo(
                 stringResource(id = R.string.vehicle_brand_text),
-                CurrentDriver.getDriver().vehicleBrand
+                CurrentDriver.getDriver().vehicleBrand.value
             )
             RowInfo(
                 stringResource(id = R.string.vehicle_type_text),
-                CurrentDriver.getDriver().vehicleType
+                CurrentDriver.getDriver().travelMode.value
             )
         }
     }

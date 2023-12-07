@@ -7,10 +7,16 @@ const getCurrent = asyncHandler(async (req, res) => {
   const user = await userModel
     .findById(_id)
     .select("-refreshToken -password -role");
-  return res.status(200).json({
-    succes: user ? true : false,
-    rs: user ? user : "User not found!",
-  });
+  if (user) {
+    return res.status(200).json({
+      phoneNumber: user.phoneNumber,
+      userName: user.userName,
+      email: user.email,
+    });
+  } else {
+    res.status(400);
+    throw new Error("error");
+  }
 });
 
 const forgotPassword = asyncHandler(async (req, res) => {
@@ -18,10 +24,12 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const user = await userModel.findOne({ phoneNumber });
   user.password = newPassword;
   const check = await user.save();
-  return res.status(200).json({
-    succes: check ? true : false,
-    rs: check ? "Changed password successfully!" : "Password change failed",
-  });
+  if (check) {
+    return res.status(200).send("success.");
+  } else {
+    res.status(400);
+    throw new Error("error");
+  }
 });
 
 const addAddress = asyncHandler(async (req, res) => {
@@ -38,7 +46,7 @@ const addAddress = asyncHandler(async (req, res) => {
   );
   return res.json({
     data: response ? true : false,
-    createdBlog: response ? response : "Cannot create new address.",
+    // createdBlog: response ? response : "Cannot create new address.",
   });
 });
 
@@ -61,10 +69,14 @@ const deleteAddress = asyncHandler(async (req, res) => {
 const getAddresses = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const response = await userModel.findByIdAndUpdate(_id);
-  return res.json({
-    success: response ? true : false,
-    data: response ? response.address : " Something went wrong. ",
-  });
+  if (user) {
+    return res.status(200).json({
+      addresses: response.address
+    });
+  } else {
+    res.status(400);
+    throw new Error("error");
+  }
 });
 
 module.exports = {

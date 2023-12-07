@@ -27,9 +27,6 @@ import ir.kaaveh.sdpcompose.ssp
 fun BoxScope.ConfirmButton(
     paymentConfirmationUiViewModel: PaymentConfirmationUiViewModel = viewModel()
 ) {
-
-    val context = LocalContext.current
-
     Box(
         modifier = Modifier
             .align(Alignment.BottomCenter)
@@ -44,7 +41,7 @@ fun BoxScope.ConfirmButton(
                 .background(colorResource(id = R.color.blue_500))
                 .padding(vertical = 10.sdp),
             onClick = {
-                paymentConfirmationUiViewModel.clickConfirmButton(context)
+                paymentConfirmationUiViewModel.clickConfirmButton()
             }
         ) {
             AppText(

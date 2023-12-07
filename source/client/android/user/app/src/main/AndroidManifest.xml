@@ -42,59 +42,73 @@
 
         <activity
             android:name=".screens.permission.PermissionActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".screens.login.LoginScreen"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".screens.otpverification.OtpVerificationActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".screens.newusercreation.NewUserCreationActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".screens.passwordverification.PasswordVerificationActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".screens.changepassword.ChangePasswordActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".screens.home.HomeActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".screens.notificationdetails.NotificationDetailActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".screens.confirmlocation.ConfirmLocationActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".screens.selectinglocation.SelectingLocationActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".screens.booking.BookingActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".screens.notefordriver.NoteForDriverActivity"
-            android:exported="false"/>
+            android:exported="false" />
+
         <activity
             android:name=".screens.findingdriver.FindingDriverActivity"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity
+            android:name=".screens.waitingdriver.WaitingDriverActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".screens.triptracking.TripTrackingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".screens.tripdetails.TripDetailsActivity"
+            android:exported="false" />
+
         <service
             android:name=".services.LocationService"
             android:foregroundServiceType="location" />

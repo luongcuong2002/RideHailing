@@ -40,4 +40,11 @@
     <string name="trip_cost">Phí chuyến đi</string>
     <string name="total_distance">Tổng quãng đường</string>
     <string name="confirm_paid">Xác nhận đã thanh toán</string>
+    <string name="confirm_text">Xác nhận</string>
+    <string name="continue_text">Tiếp tục</string>
+    <string name="dialog_permission_rationale_header">Xin quyền truy cập vị trí</string>
+    <string name="dialog_permission_rationale_des">Ứng dụng cần xin quyền truy cập vị trí để tự động xác định điểm đón khách</string>
+    <string name="warning_text">Cảnh báo</string>
+    <string name="do_you_want_cancel_the_trip">Bạn có chắc chắn muốn huỷ chuyến?</string>
+    <string name="the_trip_has_been_canceled">Chuyến xe đã bị huỷ</string>
 </resources>

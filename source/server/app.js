@@ -52,7 +52,7 @@ const booking = require("./controllers/sockets/booking");
 const connectSocket = require("./controllers/sockets/connectSocket");
 
 booking(io);
-connectSocket(io);
+// connectSocket(io);
 
 // io.on("connection", (socket) => {
 //   console.log("New client connected: " + socket.id);

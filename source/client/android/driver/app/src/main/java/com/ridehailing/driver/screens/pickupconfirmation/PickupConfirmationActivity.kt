@@ -45,6 +45,17 @@ class PickupConfirmationActivity : BaseActivity() {
 
         val tripInfo = intent.getSerializableExtra(Constant.BUNDLE_TRIP_INFO) as TripInfo
         pickupConfirmationViewModel.setCurrentTripInfo(tripInfo)
+
+        pickupConfirmationViewModel.setupListeners(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        pickupConfirmationViewModel.removeListeners()
+    }
+
+    override fun onBackPressed() {
+
     }
 }
 

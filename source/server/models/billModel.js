@@ -1,38 +1,66 @@
 const mongoose = require("mongoose"); // Erase if already required
 
 // Declare the Schema of the Mongo model
-var userSchema = new mongoose.Schema(
+var billSchema = new mongoose.Schema(
   {
+    pickupAddress: {
+      address: {
+        type: String,
+        required: true,
+      },
+      latitude: {
+        type: Number,
+        required: true,
+      },
+      longitude: {
+        type: Number,
+        required: true,
+      },
+    },
+    destinationAddress: {
+      address: {
+        type: String,
+        required: true,
+      },
+      latitude: {
+        type: Number,
+        required: true,
+      },
+      longitude: {
+        type: Number,
+        required: true,
+      },
+    },
+    distanceInKilometers: {
+      type: Number,
+      required: true,
+    },
+    durationInMinutes: {
+      type: Number,
+      required: true,
+    },
+    paymentMethod: {
+      type: String,
+      required: true,
+    },
+    noteForDriver: String,
+    cost: {
+      type: Number,
+      required: true,
+    },
     travelMode: {
       type: String,
-      enum: ["TAXI", "BIKE"],
       required: true,
     },
-    startLatitude: {
-      type: Number,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserModel",
       required: true,
     },
-    startLongitude: {
-      type: Number,
-      required: true,
-    },
-    endLatitude: {
-      type: Number,
-      required: true,
-    },
-    endLongitude: {
-      type: Number,
-      required: true,
-    },
-    userName: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    driverName: {
-      type: mongoose.Types.ObjectId,
-      ref: "Driver",
-      required: true,
+    driverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "DriverModel",
+      default: null,
     },
   },
   {
@@ -41,4 +69,4 @@ var userSchema = new mongoose.Schema(
 );
 
 //Export the model
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Bill", billSchema);

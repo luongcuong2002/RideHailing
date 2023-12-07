@@ -8,4 +8,5 @@ data class GetBookingInfoRequest(
     @SerializedName("startLongitude") val startLongitude: Double,
     @SerializedName("endLatitude") val endLatitude: Double,
     @SerializedName("endLongitude") val endLongitude: Double,
+    @SerializedName("distanceInKilometers") val distanceInKilometers: Double,
 )

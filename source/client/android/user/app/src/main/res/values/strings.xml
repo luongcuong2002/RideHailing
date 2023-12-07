@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Ride Hailing</string>
     <string name="header_req_per">Sử dụng vị trí của bạn và cho phép nhận thông báo</string>
-    <string name="des_req_per">Cho phép Ride Hailing sử dụng vị trí của bạn và nhận thông báo phục vụ việc đặt xe được tốt hơn.\nBạn hoàn toàn có thể thay đổi cấp quyền trong phần Cài đặt điện thoại bất cứ lúc nào.</string>
+    <string name="des_req_per">Cho phép Ride Hailing sử dụng vị trí của bạn và nhận thông báo phục vụ việc đặt xe được tốt hơn.\nBạn hoàn toàn có thể thay đổi cấp quyền trong phần Cài đặt điện thoờiại bất cứ lúc nào.</string>
     <string name="continue_text">Tiếp tục</string>
     <string name="dialog_permission_rationale_header">Xin quyền truy cập vị trí</string>
     <string name="dialog_permission_rationale_des">Ứng dụng cần xin quyền truy cập vị trí để tự động xác định điểm đón khách</string>
@@ -89,4 +89,19 @@
     <string name="note_for_driver_hint">Nhập ghi chú cho tài xế</string>
     <string name="done">Hoàn tất</string>
     <string name="finding_a_car">ĐANG TÌM XE</string>
+    <string name="the_driver_will_arrive_in">Tài xế sẽ đến trong</string>
+    <string name="arriving">Đang đi đến</string>
+    <string name="texting">Nhắn tin</string>
+    <string name="calling">Gọi điện</string>
+    <string name="on_the_way">Đang đến</string>
+    <string name="thanks_for_choosing">Cảm ơn vì đã chọn Cam SM</string>
+    <string name="rating_driver">Đánh giá tài xế</string>
+    <string name="how_do_you_rate_your_driver">Bạn đánh giá tài xế của bạn như thế nào?</string>
+    <string name="send_rating">Gửi đánh giá</string>
+    <string name="charge_by_cash">Trả qua tiền mặt</string>
+    <string name="time_text">Thời gian</string>
+    <string name="rating_driver_successfully">Đánh giá tài xế thành công</string>
+    <string name="warning_text">Cảnh báo</string>
+    <string name="do_you_want_cancel_the_trip">Bạn có chắc chắn muốn huỷ chuyến?</string>
+    <string name="the_trip_has_been_canceled">Chuyến xe đã bị huỷ</string>
 </resources>

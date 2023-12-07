@@ -45,6 +45,17 @@ class DropoffConfirmationActivity : BaseActivity() {
 
         val tripInfo = intent.getSerializableExtra(Constant.BUNDLE_TRIP_INFO) as TripInfo
         dropoffConfirmationUiViewModel.setCurrentTripInfo(tripInfo)
+
+        dropoffConfirmationUiViewModel.setupListeners(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dropoffConfirmationUiViewModel.removeListeners()
+    }
+
+    override fun onBackPressed() {
+
     }
 }
 

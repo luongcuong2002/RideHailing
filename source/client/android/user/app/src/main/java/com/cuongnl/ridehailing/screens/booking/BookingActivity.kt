@@ -65,12 +65,12 @@ class BookingActivity : BaseActivity() {
         bookingActivityUiViewModel.setPickupLocationAddress(pickupLocationAddress!!)
 
         if (transportationType != null) {
-            bookingActivityUiViewModel.selectBookingInfoAndUpdateUI(this, transportationType)
+            bookingActivityUiViewModel.selectBookingInfo(transportationType)
         } else {
-            bookingActivityUiViewModel.selectBookingInfoAndUpdateUI(this, TransportationType.TAXI)
+            bookingActivityUiViewModel.selectBookingInfo(TransportationType.TAXI)
         }
 
-        bookingActivityUiViewModel.getBookingInfoResponses(this)
+        bookingActivityUiViewModel.getData(this)
 
         mapViewModel = ViewModelProvider(this)[MapViewModel::class.java]
 

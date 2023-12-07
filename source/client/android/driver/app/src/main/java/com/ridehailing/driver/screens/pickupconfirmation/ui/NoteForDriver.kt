@@ -27,6 +27,9 @@ import ir.kaaveh.sdpcompose.ssp
 fun NoteForDriver(
     pickupConfirmationUiViewModel: PickupConfirmationUiViewModel = viewModel()
 ) {
+    if (pickupConfirmationUiViewModel.currentTripInfo.noteForDriver.isEmpty()) {
+        return
+    }
     Column(
         modifier = Modifier
             .padding(top = 20.sdp)

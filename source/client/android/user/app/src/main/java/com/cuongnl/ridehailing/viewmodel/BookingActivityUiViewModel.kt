@@ -2,7 +2,6 @@ package com.cuongnl.ridehailing.viewmodel
 
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
 import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -12,6 +11,7 @@ import com.cuongnl.ridehailing.enums.PaymentMethod
 import com.cuongnl.ridehailing.enums.TransportationType
 import com.cuongnl.ridehailing.extensions.findActivity
 import com.cuongnl.ridehailing.globalstate.CurrentLocation
+import com.cuongnl.ridehailing.globalstate.CurrentUser
 import com.cuongnl.ridehailing.models.api.GetBookingInfoRequest
 import com.cuongnl.ridehailing.models.api.GetBookingInfoResponse
 import com.cuongnl.ridehailing.models.api.RequestARideRequest
@@ -20,16 +20,16 @@ import com.cuongnl.ridehailing.network.retrofit.repository.BookingRepository
 import com.cuongnl.ridehailing.screens.findingdriver.FindingDriverActivity
 import com.cuongnl.ridehailing.screens.notefordriver.NoteForDriverActivity
 import com.cuongnl.ridehailing.utils.Constant
-import com.cuongnl.ridehailing.utils.MapUtils
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class BookingActivityUiViewModel : ViewModel() {
 
     private val bookingRepository = BookingRepository()
-
-    val points = mutableStateListOf<LatLng>()
 
     val bookingsInfo = mutableStateListOf<RideBookingInfoItem>()
     private var _selectedBookingIndex = mutableStateOf(0)
@@ -63,47 +63,130 @@ class BookingActivityUiViewModel : ViewModel() {
         }
     }
 
-    fun selectBookingInfoAndUpdateUI(context: Context, transportationType: TransportationType) {
+    fun getData(context: Context) {
 
         val size = bookingsInfo.size
+        for (i in 0 until size) {
+            getDirectionsBetweenTwoPoints(context, bookingsInfo[i].transportationType.travelMode) {
 
+                val points = mutableListOf<LatLng>()
+//                it.routes[0].legs[0].steps.forEach {
+//                    points.addAll(it.polyline.decodePath().map { latLng ->
+//                        val newLat = LatLng(latLng.lat, latLng.lng)
+//                        newLat
+//                    })
+//                }
+//
+//                bookingsInfo[i].distanceInKilometers =
+//                    it.routes[0].legs[0].distance.inMeters / 1000.0
+//                bookingsInfo[i].travelTimeInMinutes =
+//                    it.routes[0].legs[0].duration.inSeconds.toInt() / 60
+//                bookingsInfo[i].directionPoints = points
+
+                bookingsInfo[i].distanceInKilometers = 23.3
+                bookingsInfo[i].travelTimeInMinutes = 45
+                bookingsInfo[i].directionPoints = points
+
+                getBookingInfoResponses(context)
+            }
+        }
+    }
+
+    private fun getDirectionsBetweenTwoPoints(
+        context: Context,
+        travelMode: TravelMode,
+        onSuccess: (DirectionsResult) -> Unit = {},
+    ) {
+
+        onSuccess(DirectionsResult())
+
+//        MapUtils.getDirectionsBetweenTwoPoints(
+//            destinationLocationLatLng.value,
+//            pickupLocationLatLng.value,
+//            travelMode,
+//            object : com.google.maps.PendingResult.Callback<DirectionsResult> {
+//                override fun onResult(result: DirectionsResult?) {
+//                    if (result != null && result.routes.isNotEmpty()) {
+//                        onSuccess(result)
+//                    } else {
+//                        Toast.makeText(context, "Cannot get directions", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//
+//                override fun onFailure(e: Throwable?) {
+//                    context.findActivity()?.runOnUiThread {
+//                        Toast.makeText(context, "${e?.message}", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        )
+    }
+
+    private fun getBookingInfoResponses(context: Context) {
+
+        bookingsInfo.forEach {
+
+            val request = GetBookingInfoRequest(
+                travelMode = it.transportationType.name,
+                startLatitude = pickupLocationLatLng.value.latitude,
+                startLongitude = pickupLocationLatLng.value.longitude,
+                endLatitude = destinationLocationLatLng.value.latitude,
+                endLongitude = destinationLocationLatLng.value.longitude,
+                distanceInKilometers = it.distanceInKilometers ?: 0.0,
+            )
+
+            bookingRepository.getBookingInfo(request, object : Callback<GetBookingInfoResponse> {
+                override fun onResponse(
+                    call: Call<GetBookingInfoResponse>,
+                    response: Response<GetBookingInfoResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { bookingInfoResponse ->
+                            it.bookingInfoResponse = bookingInfoResponse
+                        }
+                        it.isBookingInfoLoading.value = false
+                        checkAllBookingInfoLoadedAndRefreshList()
+                    } else {
+                        Toast.makeText(context, "Cannot get booking info", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<GetBookingInfoResponse>, t: Throwable) {
+                    Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    private fun checkAllBookingInfoLoadedAndRefreshList() {
+        val size = bookingsInfo.size
+        for (i in 0 until size) {
+            if (bookingsInfo[i].isBookingInfoLoading.value) {
+                return
+            }
+        }
+        refreshList()
+    }
+
+    private fun refreshList() {
+        val removedItem = bookingsInfo.removeLast()
+        bookingsInfo.add(removedItem)
+    }
+
+    fun selectBookingInfo(transportationType: TransportationType) {
+        val size = bookingsInfo.size
         for (i in 0 until size) {
             bookingsInfo[i].isSelected.value =
                 bookingsInfo[i].transportationType == transportationType
 
             if (bookingsInfo[i].isSelected.value) {
-
                 _selectedBookingIndex.value = i
-
-                if (bookingsInfo[i].directionPoints == null) {
-                    getDirectionsBetweenTwoPoints(context, transportationType.travelMode) {
-
-                        val points = mutableListOf<LatLng>()
-
-                        it.routes[0].legs[0].steps.forEach {
-                            points.addAll(it.polyline.decodePath().map { latLng ->
-                                val newLat = LatLng(latLng.lat, latLng.lng)
-                                newLat
-                            })
-                        }
-
-                        bookingsInfo[i].distanceInKilometers =
-                            it.routes[0].legs[0].distance.inMeters / 1000.0
-                        bookingsInfo[i].travelTimeInMinutes =
-                            it.routes[0].legs[0].duration.inSeconds.toInt() / 60
-                        bookingsInfo[i].directionPoints = points
-                        setPoints(bookingsInfo[i].directionPoints!!)
-                    }
-                } else {
-                    setPoints(bookingsInfo[i].directionPoints!!)
-                }
             }
         }
     }
 
-    fun setPoints(points: List<LatLng>) {
-        this.points.clear()
-        this.points.addAll(points)
+    fun getCurrentBookingInfo(): RideBookingInfoItem {
+        return bookingsInfo[selectedBookingIndex.value]
     }
 
     fun setDestinationLocationLatLng(destinationLocationLatLng: LatLng) {
@@ -136,79 +219,6 @@ class BookingActivityUiViewModel : ViewModel() {
 
     fun setFareCalculationInfoSelectedIndex(fareCalculationInfoSelectedIndex: Int) {
         _fareCalculationInfoSelectedIndex.value = fareCalculationInfoSelectedIndex
-    }
-
-    private fun getDirectionsBetweenTwoPoints(
-        context: Context,
-        travelMode: TravelMode,
-        onSuccess: (DirectionsResult) -> Unit = {},
-    ) {
-
-        MapUtils.getDirectionsBetweenTwoPoints(
-            destinationLocationLatLng.value,
-            pickupLocationLatLng.value,
-            travelMode,
-            object : com.google.maps.PendingResult.Callback<DirectionsResult> {
-                override fun onResult(result: DirectionsResult?) {
-                    if (result != null && result.routes.isNotEmpty()) {
-                        onSuccess(result)
-                    } else {
-                        Toast.makeText(context, "Cannot get directions", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(e: Throwable?) {
-                    context.findActivity()?.runOnUiThread {
-                        Toast.makeText(context, "${e?.message}", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        )
-    }
-
-    fun getBookingInfoResponses(context: Context) {
-
-        bookingsInfo.forEach {
-
-            val request = GetBookingInfoRequest(
-                travelMode = it.transportationType.name,
-                startLatitude = pickupLocationLatLng.value.latitude,
-                startLongitude = pickupLocationLatLng.value.longitude,
-                endLatitude = destinationLocationLatLng.value.latitude,
-                endLongitude = destinationLocationLatLng.value.longitude,
-            )
-
-            val response = GetBookingInfoResponse(
-                fareAmount = 230,
-                fareCalculationInfo = "<b>Hello</b> <i>World</i>",
-                minutesToDriverArrival = 5,
-                driversNearbyLocation = listOf(),
-                kilometersToDriverArrival = 4.3,
-            )
-
-            Handler().postDelayed({
-                it.bookingInfoResponse = response
-            }, 2000)
-
-//            bookingRepository.getBookingInfo(request, object : Callback<GetBookingInfoResponse> {
-//                override fun onResponse(
-//                    call: Call<GetBookingInfoResponse>,
-//                    response: Response<GetBookingInfoResponse>
-//                ) {
-//                    if (response.isSuccessful) {
-//                        response.body()?.let { bookingInfoResponse ->
-//                            it.bookingInfoResponse = bookingInfoResponse
-//                        }
-//                    } else {
-//                        Toast.makeText(context, "Cannot get booking info", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<GetBookingInfoResponse>, t: Throwable) {
-//                    Toast.makeText(context, "Cannot get booking info", Toast.LENGTH_SHORT).show()
-//                }
-//            })
-        }
     }
 
     fun clickNoteForDriver(context: Context) {
@@ -248,6 +258,8 @@ class BookingActivityUiViewModel : ViewModel() {
             kilometersToDriverArrival = bookingInfo.bookingInfoResponse!!.kilometersToDriverArrival,
             durationInMinutes = bookingInfo.travelTimeInMinutes ?: 0,
             minutesToDriverArrival = bookingInfo.bookingInfoResponse!!.minutesToDriverArrival,
+            driverSocketIds = bookingInfo.bookingInfoResponse!!.driversNearbyLocation.map { it.socketId },
+            phoneNumber = CurrentUser.getUser()?.phoneNumber?.value!!
         )
         intent.putExtra(Constant.BUNDLE_REQUEST_A_RIDE_REQUEST, requestARideRequest)
         context.startActivity(intent)

@@ -26,19 +26,19 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ridehailing.driver.R
 import com.ridehailing.driver.models.TripInfo
-import com.ridehailing.driver.viewmodel.TripTabUiViewModel
+import com.ridehailing.driver.screens.home.LocalHomeViewModel
 import com.ridehailing.driver.widgets.AppText
 import com.ridehailing.driver.widgets.NoRippleButton
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
 @Composable
-fun ColumnScope.TripList(
-    tripTabUiViewModel: TripTabUiViewModel = viewModel()
-) {
+fun ColumnScope.TripList() {
+
+    val homeUiViewModel = LocalHomeViewModel.current
+
     LazyColumn(
         modifier = Modifier
             .padding(bottom = 10.sdp)
@@ -46,9 +46,9 @@ fun ColumnScope.TripList(
             .weight(1f)
             .padding(horizontal = 10.sdp),
         content = {
-            items(tripTabUiViewModel.getTrips().size) { index ->
+            items(homeUiViewModel.getTrips().size) { index ->
                 TripItem(
-                    trip = tripTabUiViewModel.getTrips()[index]
+                    trip = homeUiViewModel.getTrips()[index]
                 )
             }
         },
@@ -58,12 +58,14 @@ fun ColumnScope.TripList(
 
 @Composable
 private fun TripItem(
-    tripTabUiViewModel: TripTabUiViewModel = viewModel(),
     trip: TripInfo
 ) {
+
+    val homeUiViewModel = LocalHomeViewModel.current
+
     NoRippleButton(
         onClick = {
-            tripTabUiViewModel.setSelectedTrip(trip)
+            homeUiViewModel.setSelectedTrip(trip)
         }
     ) {
         Column(
@@ -166,7 +168,8 @@ private fun Address(
             modifier = Modifier
                 .padding(start = 10.sdp)
                 .weight(1f),
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
     }
 

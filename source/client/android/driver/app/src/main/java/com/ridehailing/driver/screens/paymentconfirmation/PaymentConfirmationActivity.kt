@@ -39,6 +39,13 @@ class PaymentConfirmationActivity : BaseActivity() {
 
         val tripInfo = intent.getSerializableExtra(Constant.BUNDLE_TRIP_INFO) as TripInfo
         paymentConfirmationUiViewModel.setCurrentTripInfo(tripInfo)
+
+        paymentConfirmationUiViewModel.setupListeners(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        paymentConfirmationUiViewModel.removeListeners()
     }
 }
 

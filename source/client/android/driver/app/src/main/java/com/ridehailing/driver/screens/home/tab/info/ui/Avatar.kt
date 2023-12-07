@@ -18,7 +18,7 @@ import ir.kaaveh.sdpcompose.sdp
 @Composable
 fun Avatar() {
 
-    val avatar = CurrentDriver.getDriver()?.driverAvatar?.toBitmap()?.asImageBitmap()
+    val avatar = CurrentDriver.getDriver()?.driverAvatar?.value?.toBitmap()?.asImageBitmap()
 
     val modifier = Modifier
         .padding(vertical = 24.sdp)

@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -62,9 +64,7 @@ private fun AddItem(
     bookingActivityUiViewModel: BookingActivityUiViewModel = viewModel()
 ) {
 
-    val context = LocalContext.current
-
-    val item = bookingActivityUiViewModel.bookingsInfo[index]
+    var item = bookingActivityUiViewModel.bookingsInfo[index]
 
     val backgroundColor = if (item.isSelected.value) {
         colorResource(id = R.color.orange_50).copy(alpha = 0.7f)
@@ -80,7 +80,7 @@ private fun AddItem(
 
     NoRippleButton(
         onClick = {
-            bookingActivityUiViewModel.selectBookingInfoAndUpdateUI(context, item.transportationType)
+            bookingActivityUiViewModel.selectBookingInfo(item.transportationType)
         }
     ) {
         ConstraintLayout(
@@ -199,7 +199,7 @@ private fun DetailIcon(
     ) {
         TouchableOpacityButton(
             onClick = {
-                if (bookingActivityUiViewModel.bookingsInfo[index].bookingInfoResponse != null) {
+                if (!bookingActivityUiViewModel.getCurrentBookingInfo().isBookingInfoLoading.value) {
                     bookingActivityUiViewModel.setFareCalculationInfoSelectedIndex(index)
                     bookingActivityUiViewModel.setIsBottomSheetVisible(true)
                 }

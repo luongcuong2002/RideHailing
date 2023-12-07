@@ -8,21 +8,21 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ridehailing.driver.R
 import com.ridehailing.driver.globalstate.CurrentLocation
-import com.ridehailing.driver.viewmodel.InfoTabUiViewModel
+import com.ridehailing.driver.screens.home.LocalHomeViewModel
 import com.ridehailing.driver.widgets.AppText
 import com.ridehailing.driver.widgets.TouchableOpacityButton
 import ir.kaaveh.sdpcompose.sdp
@@ -48,11 +48,11 @@ fun LocationTable() {
         ) {
             RowInfo(
                 stringResource(id = R.string.address_text),
-                CurrentLocation.getAddress()
+                CurrentLocation.address.value
             )
             RowInfo(
                 stringResource(id = R.string.coordinate_text),
-                CurrentLocation.getLatitude().toString() + ", " + CurrentLocation.getLongitude().toString()
+                CurrentLocation.latLng.value.latitude.toString() + ", " + CurrentLocation.latLng.value.longitude.toString()
             )
 
             ChangeButton()
@@ -78,9 +78,11 @@ private fun Header() {
 }
 
 @Composable
-private fun ChangeButton(
-    infoTabUiViewModel: InfoTabUiViewModel = viewModel()
-) {
+private fun ChangeButton() {
+
+    val homeViewModel = LocalHomeViewModel.current
+    val context = LocalContext.current
+
     TouchableOpacityButton(
         modifier = Modifier
             .padding(top = 10.sdp)
@@ -89,7 +91,7 @@ private fun ChangeButton(
             .padding(vertical = 6.sdp)
             .padding(horizontal = 16.sdp),
         onClick = {
-            infoTabUiViewModel.clickChangeLocation()
+            homeViewModel.clickChangeLocation(context)
         }
     ) {
         AppText(
@@ -126,9 +128,13 @@ private fun RowInfo(
                 fontSize = 10.ssp
             )
             AppText(
+                modifier = Modifier
+                    .padding(start = 10.sdp),
                 text = content,
                 color = colorResource(id = R.color.table_content_text_color),
-                fontSize = 10.ssp
+                fontSize = 10.ssp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
         Divider()

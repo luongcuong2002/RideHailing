@@ -8,5 +8,5 @@ data class FetchDriverResponse(
     @SerializedName("driverAvatar") val driverAvatar: String?,
     @SerializedName("licensePlate") val licensePlate: String,
     @SerializedName("vehicleBrand") val vehicleBrand: String,
-    @SerializedName("vehicleType") val vehicleType: String,
+    @SerializedName("travelMode") val travelMode: String,
 )

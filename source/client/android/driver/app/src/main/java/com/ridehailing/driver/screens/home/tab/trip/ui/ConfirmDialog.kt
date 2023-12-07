@@ -21,20 +21,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ridehailing.driver.R
-import com.ridehailing.driver.viewmodel.TripTabUiViewModel
+import com.ridehailing.driver.screens.home.LocalHomeViewModel
 import com.ridehailing.driver.widgets.AppText
 import com.ridehailing.driver.widgets.TouchableOpacityButton
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
 @Composable
-fun ConfirmDialog(
-    tripTabUiViewModel: TripTabUiViewModel = viewModel()
-) {
+fun ConfirmDialog() {
 
-    val currentTrip = tripTabUiViewModel.selectedTrip.value
+    val homeUiViewModel = LocalHomeViewModel.current
+
+    val currentTrip = homeUiViewModel.selectedTrip.value
     
     if (currentTrip != null) {
 
@@ -42,7 +41,7 @@ fun ConfirmDialog(
 
         Dialog(
             onDismissRequest = {
-                tripTabUiViewModel.setSelectedTrip(null)
+                homeUiViewModel.setSelectedTrip(null)
             },
             properties = DialogProperties(
                 dismissOnBackPress = true,
@@ -146,7 +145,7 @@ fun ConfirmDialog(
                         .padding(vertical = 8.sdp)
                         .padding(horizontal = 20.sdp),
                     onClick = {
-                        tripTabUiViewModel.clickToAcceptARide(context)
+                        homeUiViewModel.clickToAcceptARide()
                     }
                 ) {
                     AppText(

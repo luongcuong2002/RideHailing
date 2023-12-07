@@ -9,7 +9,6 @@ var userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: false,
-      unique: true,
     },
     phoneNumber: {
       type: String,
@@ -24,34 +23,39 @@ var userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    socketId: {
+      type: String,
+      default: null,
+    },
     refreshToken: {
       type: String,
+      default: null,
     },
-    // notifications: [
-    //   {
-    //     title: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     shortContent: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     content: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     image: {
-    //       type: String,
-    //       default:
-    //         "https://insieutoc.vn/wp-content/uploads/2021/03/cac-mau-logo-dep-nhat.jpg",
-    //     },
-    //     isRead: {
-    //       type: Boolean,
-    //       default: false,
-    //     },
-    //   },
-    // ],
+    notifications: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        shortContent: {
+          type: String,
+          required: true,
+        },
+        content: {
+          type: String,
+          required: true,
+        },
+        image: {
+          type: String,
+          default:
+            "https://insieutoc.vn/wp-content/uploads/2021/03/cac-mau-logo-dep-nhat.jpg",
+        },
+        isRead: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
     address: [
       {
         addressType: {

@@ -7,6 +7,7 @@ import com.ridehailing.driver.globalstate.CurrentDriver
 import com.ridehailing.driver.models.Driver
 import com.ridehailing.driver.models.api.FetchDriverResponse
 import com.ridehailing.driver.network.retrofit.repository.DriverRepository
+import com.ridehailing.driver.screens.home.HomeActivity
 import com.ridehailing.driver.screens.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,11 +34,11 @@ class TokenCheckUiViewModel : ViewModel() {
                                     setDriverAvatar(it.driverAvatar)
                                     setLicensePlate(it.licensePlate)
                                     setVehicleBrand(it.vehicleBrand)
-                                    setVehicleType(it.vehicleType)
+                                    setTravelMode(it.travelMode)
                                 }
                             CurrentDriver.setDriver(driver)
                         }
-                        navigateToHomeActivity()
+                        navigateToHomeActivity(context)
                     } else {
                         navigateToLoginActivity(context)
                     }
@@ -50,8 +51,9 @@ class TokenCheckUiViewModel : ViewModel() {
         )
     }
 
-    private fun navigateToHomeActivity() {
-
+    private fun navigateToHomeActivity(context: Context) {
+        val intent = Intent(context, HomeActivity::class.java)
+        context.startActivity(intent)
     }
 
     private fun navigateToLoginActivity(context: Context) {

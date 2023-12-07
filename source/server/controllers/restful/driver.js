@@ -21,8 +21,12 @@ const getCurrent = asyncHandler(async (req, res) => {
     .findById(_id)
     .select("-refreshToken -password -role");
   return res.status(200).json({
-    succes: driver ? true : false,
-    rs: driver ? driver : "Driver not found!",
+    phoneNumber: driver.phoneNumber,
+    driverName: driver.driverName,
+    driverAvatar: driver.driverAvatar,
+    licensePlate: driver.licensePlate,
+    vehicleBrand: driver.vehicleBrand,
+    travelMode: driver.travelMode,
   });
 });
 

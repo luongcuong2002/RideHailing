@@ -3,10 +3,12 @@ package com.cuongnl.ridehailing.models.api
 import com.cuongnl.ridehailing.enums.PaymentMethod
 import com.cuongnl.ridehailing.enums.TransportationType
 import com.google.gson.annotations.SerializedName
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.Serializable
 
 data class RequestARideRequest(
+    @SerializedName("phoneNumber") val phoneNumber: String,
     @SerializedName("destinationLatitude") val destinationLatitude: Double,
     @SerializedName("destinationLongitude") val destinationLongitude: Double,
     @SerializedName("destinationAddress") val destinationAddress: String,
@@ -21,6 +23,7 @@ data class RequestARideRequest(
     @SerializedName("kilometersToDriverArrival") val kilometersToDriverArrival: Double,
     @SerializedName("minutesToDriverArrival") val minutesToDriverArrival: Int,
     @SerializedName("cost") val cost: Int,
+    @SerializedName("driverSocketIds") val driverSocketIds: List<String>
 ) : Serializable {
     fun toJson() : JSONObject {
         val data = JSONObject()
@@ -35,9 +38,10 @@ data class RequestARideRequest(
         pickup.put("longitude", pickupLongitude)
         pickup.put("address", pickupAddress)
 
-        data.put("destination", destination.toString())
-        data.put("pickup", pickup.toString())
+        data.put("destinationAddress", destination.toString())
+        data.put("pickupAddress", pickup.toString())
 
+        data.put("phoneNumber", phoneNumber)
         data.put("paymentMethod", paymentMethod.name)
         data.put("noteForDriver", noteForDriver)
         data.put("travelMode", transportationType.name)
@@ -46,6 +50,16 @@ data class RequestARideRequest(
         data.put("kilometersToDriverArrival", kilometersToDriverArrival)
         data.put("minutesToDriverArrival", minutesToDriverArrival)
         data.put("cost", cost)
+
+        val driverSocketIdsJsonArray = JSONArray()
+
+        for (driverSocketId in driverSocketIds) {
+            val json = JSONObject()
+            json.put("socketId", driverSocketId)
+            driverSocketIdsJsonArray.put(json)
+        }
+
+        data.put("driverSocketIds", driverSocketIdsJsonArray)
 
         return data
     }

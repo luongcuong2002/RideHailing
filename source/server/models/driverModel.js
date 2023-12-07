@@ -5,7 +5,7 @@ var driverSchema = new mongoose.Schema(
   {
     driverName: {
       type: String,
-      required: true,
+      default: "Test name",
     },
     // email: {
     //   type: String,
@@ -36,6 +36,7 @@ var driverSchema = new mongoose.Schema(
     },
     driverAvatar: {
       type: String,
+      default: null,
     },
     licensePlate: {
       type: String,

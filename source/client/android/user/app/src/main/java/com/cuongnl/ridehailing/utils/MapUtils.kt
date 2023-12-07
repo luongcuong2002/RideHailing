@@ -90,15 +90,22 @@ object MapUtils {
         onPermissionNotGranted: () -> Unit = {}
     ) {
 
-        if (!Constant.ENABLE_CALL_MAP_API) {
-            onSuccess(
-                Location("").apply {
-                    latitude = 20.9808164
-                    longitude = 105.7936536
-                }
-            )
-            return
-        }
+        onSuccess(
+            Location("").apply {
+                latitude = 20.9808164
+                longitude = 105.7936536
+            }
+        )
+        return
+//        if (!Constant.ENABLE_CALL_MAP_API) {
+//            onSuccess(
+//                Location("").apply {
+//                    latitude = 20.9808164
+//                    longitude = 105.7936536
+//                }
+//            )
+//            return
+//        }
 
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
